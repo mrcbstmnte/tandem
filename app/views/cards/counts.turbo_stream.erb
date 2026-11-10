@@ -1,0 +1,3 @@
+<% Card.statuses.each_key do |status| %>
+  <%= turbo_stream.replace "count_#{status}", partial: "cards/count", locals: { board: @board, status: status } %>
+<% end %>

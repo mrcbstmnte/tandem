@@ -1,0 +1,12 @@
+<%= turbo_frame_tag @card do %>
+  <%= form_with model: [ @board, @card ], class: "card-form" do |f| %>
+    <%= f.text_area :title, rows: 3, maxlength: 140, required: true, autofocus: true, class: "input" %>
+    <% @card.errors.full_messages.each do |message| %>
+      <p class="field-error"><%= message %></p>
+    <% end %>
+    <div class="inline-form__actions">
+      <%= f.submit "Save", class: "button button--small" %>
+      <%= link_to "Cancel", board_path(@board), class: "button button--small button--ghost" %>
+    </div>
+  <% end %>
+<% end %>

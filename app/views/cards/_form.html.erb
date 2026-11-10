@@ -1,0 +1,9 @@
+<%= form_with model: [ board, card ], id: "new_card_#{card.status}", class: "add-card" do |f| %>
+  <%= f.hidden_field :status %>
+  <%= f.label :title, "Add a card to #{Card.status_label(card.status)}", class: "visually-hidden" %>
+  <%= f.text_field :title, placeholder: "+ Add a card", maxlength: 140, autocomplete: "off",
+        class: "input", "aria-invalid": card.errors[:title].any? %>
+  <% card.errors.full_messages_for(:title).each do |message| %>
+    <p class="field-error"><%= message %></p>
+  <% end %>
+<% end %>

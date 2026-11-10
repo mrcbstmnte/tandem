@@ -1,0 +1,35 @@
+<% content_for :title, @board.name %>
+<%= turbo_stream_from @board %>
+
+<%= turbo_frame_tag "board_header", class: "page-head" do %>
+  <div>
+    <p class="crumb"><%= link_to "← All boards", boards_path, data: { turbo_frame: "_top" } %></p>
+    <h1><%= @board.name %></h1>
+    <% if @board.description.present? %>
+      <p class="muted"><%= @board.description %></p>
+    <% end %>
+  </div>
+  <div class="page-head__actions">
+    <%= link_to "Rename", edit_board_path(@board), class: "button button--ghost" %>
+    <%= button_to "Delete board", @board, method: :delete, class: "button button--ghost button--danger",
+          form: { data: { turbo_confirm: "Delete “#{@board.name}” and all its cards?", turbo_frame: "_top" } } %>
+  </div>
+<% end %>
+
+<div class="columns" data-controller="sortable"
+     data-action="dragstart->sortable#dragstart dragover->sortable#dragover drop->sortable#drop dragend->sortable#dragend">
+  <% Card.statuses.each_key do |status| %>
+    <section class="column column--<%= status %>" aria-labelledby="heading_<%= status %>">
+      <header class="column__head">
+        <h2 id="heading_<%= status %>"><%= Card.status_label(status) %></h2>
+        <%= render "cards/count", board: @board, status: status %>
+      </header>
+
+      <div id="cards_<%= status %>" class="column__cards" data-sortable-target="list" data-status="<%= status %>">
+        <%= render @board.cards_in(status) %>
+      </div>
+
+      <%= render "cards/form", board: @board, card: Card.new(board_id: @board.id, status: status) %>
+    </section>
+  <% end %>
+</div>

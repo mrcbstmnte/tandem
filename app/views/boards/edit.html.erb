@@ -1,0 +1,13 @@
+<%= turbo_frame_tag "board_header", class: "page-head" do %>
+  <%= form_with model: @board, class: "inline-form" do |f| %>
+    <%= f.text_field :name, class: "input input--title", required: true, maxlength: 60, autofocus: true %>
+    <% @board.errors.full_messages.each do |message| %>
+      <p class="field-error"><%= message %></p>
+    <% end %>
+    <%= f.text_area :description, rows: 2, class: "input", placeholder: "Description (optional)" %>
+    <div class="inline-form__actions">
+      <%= f.submit "Save", class: "button" %>
+      <%= link_to "Cancel", board_path(@board), class: "button button--ghost" %>
+    </div>
+  <% end %>
+<% end %>

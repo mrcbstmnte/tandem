@@ -1,0 +1,2 @@
+<%= turbo_stream.remove @card %>
+<%= turbo_stream.replace "count_#{@card.status}", partial: "cards/count", locals: { board: @board, status: @card.status } %>

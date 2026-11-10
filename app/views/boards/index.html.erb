@@ -1,0 +1,30 @@
+<% content_for :title, "Boards" %>
+<%= turbo_stream_from :boards %>
+
+<div class="page-head">
+  <div>
+    <h1>Your boards</h1>
+    <p class="muted">Lightweight kanban boards that update for everyone in real time.</p>
+  </div>
+</div>
+
+<div class="board-grid">
+  <%= render "boards/form", board: @board %>
+
+  <% @boards.each do |board| %>
+    <%= link_to board, class: "board-tile", id: dom_id(board) do %>
+      <h2><%= board.name %></h2>
+      <% if board.description.present? %>
+        <p class="muted"><%= truncate(board.description, length: 90) %></p>
+      <% end %>
+      <ul class="tally">
+        <% Card.statuses.each_key do |status| %>
+          <li class="tally__item tally__item--<%= status %>">
+            <strong><%= board.cards_in(status).size %></strong> <%= Card.status_label(status) %>
+          </li>
+        <% end %>
+      </ul>
+      <span class="board-tile__meta">Updated <%= time_ago_in_words(board.updated_at) %> ago</span>
+    <% end %>
+  <% end %>
+</div>

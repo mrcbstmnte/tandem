@@ -1,0 +1,8 @@
+<% if @card.persisted? %>
+  <%= turbo_stream.append "cards_#{@card.status}", @card %>
+  <%= turbo_stream.replace "count_#{@card.status}", partial: "cards/count", locals: { board: @board, status: @card.status } %>
+  <%= turbo_stream.replace "new_card_#{@card.status}", partial: "cards/form",
+        locals: { board: @board, card: Card.new(board_id: @board.id, status: @card.status) } %>
+<% else %>
+  <%= turbo_stream.replace "new_card_#{@card.status}", partial: "cards/form", locals: { board: @board, card: @card } %>
+<% end %>

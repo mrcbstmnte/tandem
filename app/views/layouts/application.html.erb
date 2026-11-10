@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= content_for(:title) ? "#{content_for(:title)} · Tandem" : "Tandem" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="application-name" content="Tandem">
+    <meta name="description" content="A tiny real-time kanban board built with Rails 8 and Hotwire.">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= turbo_refreshes_with method: :morph, scroll: :preserve %>
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <%= link_to root_path, class: "brand" do %>
+        <span class="brand__mark" aria-hidden="true"></span>Tandem
+      <% end %>
+      <span class="topbar__hint">Open this page in two windows — changes sync live.</span>
+    </header>
+
+    <% if alert %>
+      <p class="flash" role="alert"><%= alert %></p>
+    <% end %>
+
+    <main class="page">
+      <%= yield %>
+    </main>
+  </body>
+</html>

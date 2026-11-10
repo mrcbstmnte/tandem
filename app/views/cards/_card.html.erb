@@ -1,0 +1,9 @@
+<%= turbo_frame_tag card, class: "card", draggable: "true",
+      data: { move_url: move_board_card_path(card.board_id, card) } do %>
+  <p class="card__title"><%= card.title %></p>
+  <div class="card__actions">
+    <%= link_to "Edit", edit_board_card_path(card.board_id, card), class: "card__action" %>
+    <%= button_to "Delete", board_card_path(card.board_id, card), method: :delete, class: "card__action",
+          form: { data: { turbo_confirm: "Delete this card?" } } %>
+  </div>
+<% end %>

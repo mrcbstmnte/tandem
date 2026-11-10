@@ -1,0 +1,10 @@
+<%= form_with model: board, id: "new_board", class: "board-tile board-tile--new", data: { turbo_permanent: true } do |f| %>
+  <h2>New board</h2>
+  <%= f.text_field :name, placeholder: "Board name", required: true, maxlength: 60,
+        class: "input", "aria-invalid": board.errors[:name].any? %>
+  <% board.errors.full_messages_for(:name).each do |message| %>
+    <p class="field-error"><%= message %></p>
+  <% end %>
+  <%= f.text_area :description, placeholder: "What is it for? (optional)", rows: 2, class: "input" %>
+  <%= f.submit "Create board", class: "button" %>
+<% end %>
